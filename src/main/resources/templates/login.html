@@ -1,0 +1,15 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+<form th:action th:object="${loginDto}" method="post">
+    <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="ID" required>
+    <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="****" required>
+    <input type="submit" value="로그인">
+</form>
+
+</body>
+</html>
