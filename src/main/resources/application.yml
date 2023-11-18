@@ -1,0 +1,37 @@
+spring:
+#  profiles:
+#    active: dev
+  messages:
+    basename: messages, errors
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(aKba3OuCDmV+BxAV8VrFrz6ucr7k4Y4E/r/aL0oFkEQ2OyPrq3w9swE5eFM3J7h7mdrdc3stFtruJauqasViSDqnV78N78VOrJOe1Nf9ozjcN1K5qDbh/BFCZxstB+1M)
+    username: ENC(23zb4jGeJ534RDnyz2XeDg==)
+    password: ENC(O7YPSm7B08gfyf5R4NhR7A==)
+  jpa:
+    hibernate:
+      ddl-auto: create
+#      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+#        show_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: false
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+
+logging.level:
+  org.hibernate.SQL: debug
+#  org.hibernate.orm.jdbc.bind: trace
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
