@@ -11,7 +11,7 @@ public class JwtUtils {
 
     public static final SecretKey KEY = Jwts.SIG.HS256.key().build();
 
-    public String createJwt(Long id) {
+    public static String createJwt(Long id) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiryTime = now.plus(Duration.ofMillis(3600000));
 
