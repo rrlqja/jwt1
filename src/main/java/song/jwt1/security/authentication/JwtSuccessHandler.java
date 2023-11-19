@@ -17,9 +17,9 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("AuthenticationSuccess username = {}, password= {}", request.getParameter("username"), request.getParameter("password"));
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        Long userId = userPrincipal.getId();
+        String username = userPrincipal.getUsername();
 
-        String jwt = JwtUtils.createJwt(userId);
+        String jwt = JwtUtils.createJwt(username);
 
         response.setContentType("application/json");
         response.getWriter().write(jwt);
