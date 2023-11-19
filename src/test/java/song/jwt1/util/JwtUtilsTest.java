@@ -18,7 +18,7 @@ class JwtUtilsTest {
 
     @Test
     void createJwtTest() {
-        String jwt = jwtUtils.createJwt(1L);
+        String jwt = jwtUtils.createJwt("a");
 
         Jws<Claims> jws = Jwts.parser().verifyWith(KEY).build().parseSignedClaims(jwt);
         String subject = jws.getPayload().getSubject();
@@ -33,7 +33,7 @@ class JwtUtilsTest {
     @Test
     void signException() {
         SecretKey MYKEY = Jwts.SIG.HS256.key().build();
-        String jwt = jwtUtils.createJwt(1L);
+        String jwt = jwtUtils.createJwt("a");
 
         assertThatThrownBy(() -> Jwts.parser().verifyWith(MYKEY).build().parseSignedClaims(jwt))
                 .isInstanceOf(JwtException.class);
