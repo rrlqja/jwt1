@@ -2,6 +2,7 @@ package song.jwt1.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import song.jwt1.security.principal.service.UserDetailsServiceImpl;
 import song.jwt1.util.JwtUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,13 +29,23 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
-        if (authorization == null || !authorization.startsWith("bearer ")) {
+        Optional<Cookie> jwtCookie = Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("Jwt"))
+                .findFirst();
+        if (jwtCookie.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
         }
+//        if (authorization == null || !authorization.startsWith("bearer ")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
         log.info("JwtFilter start");
 
-        String jwt = authorization.substring(7);
+        Cookie cookie = jwtCookie.get();
+
+        String jwt = cookie.getValue();
+//        String jwt = authorization.substring(7);
         log.info("jwt = {}", jwt);
         String username = JwtUtils.validateJwt(jwt);
 

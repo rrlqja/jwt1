@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,12 +38,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/mypage").authenticated()
                         .anyRequest().permitAll())
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .successHandler(successHandler())
-                        .failureHandler(failureHandler()))
+                .formLogin(formLogin -> formLogin.disable())
+//                .formLogin(formLogin -> formLogin
+//                        .loginPage("/login")
+//                        .usernameParameter("username")
+//                        .passwordParameter("password")
+//                        .successHandler(successHandler())
+//                        .failureHandler(failureHandler()))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/"))
@@ -63,5 +66,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationFailureHandler failureHandler() {
         return new JwtFailureHandler();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 }
